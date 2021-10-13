@@ -4,6 +4,7 @@ import { BreadcrumsComponent } from './breadcrums/breadcrums.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -20,6 +21,7 @@ import { AppRoutingModule } from '../app-routing.module';
   ],
   imports: [
     CommonModule,
+    RouterModule
   ]
 })
 export class SharedModule { }
