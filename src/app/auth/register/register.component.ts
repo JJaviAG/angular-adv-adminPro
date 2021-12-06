@@ -19,6 +19,9 @@ export class RegisterComponent implements OnInit {
 		terminos: [false, Validators.required]
 	});
 	constructor(private fb: FormBuilder,private usuarioService:UsuarioService) { }
+=======
+	//prueba de yo que se
+	constructor(private fb: FormBuilder) { }
 	public formErrors: string[] = [];
 	ngOnInit(): void {
 		return;
