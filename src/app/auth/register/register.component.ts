@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FORM_ERRORS } from 'src/app/app-const';
-
+import { CrearRequest } from 'src/app/interfaces/auth.interfaces';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2'
 @Component({
 	selector: 'app-register',
 	templateUrl: './register.component.html',
@@ -16,13 +18,24 @@ export class RegisterComponent implements OnInit {
 		rewritePass: ['', Validators.required],
 		terminos: [false, Validators.required]
 	});
-	constructor(private fb: FormBuilder) { }
+	constructor(private fb: FormBuilder,private usuarioService:UsuarioService) { }
 	public formErrors: string[] = [];
 	ngOnInit(): void {
 		return;
 	}
 	public crearUsuario() {
+
 		this.formSubmitted = true;
+		if(!this.formErrors.length && this.registerForm.invalid){
+			return;
+		}
+		let req:CrearRequest=this.registerForm.value;
+		this.usuarioService.crearUsuario(req).subscribe(response=>{
+			console.log("response",response);
+			
+		},(err)=>{
+			Swal.fire("Error",err.error.message,"error");
+		});
 	}
 	public validarCampos(): string[] {
 		this.formErrors = [];
@@ -45,7 +58,12 @@ export class RegisterComponent implements OnInit {
 		validaCampo("email", "EMAIL");
 		validaCampo("password", "PASSWORD");
 		validaCampo("rewritePass", "REWRITE_PASS");
-
+		this.formErrors=this.formErrors.reduce((acc,item)=>{
+			if(!acc.includes(item)){
+				acc.push(item);
+			}
+			return acc;
+		},[])
 		return this.formErrors;
 	}
 	// public validaPass(){
