@@ -16,7 +16,6 @@ export class RegisterComponent implements OnInit {
 		rewritePass: ['', Validators.required],
 		terminos: [false, Validators.required]
 	});
-	//prueba de yo que se
 	constructor(private fb: FormBuilder) { }
 	public formErrors: string[] = [];
 	ngOnInit(): void {
