@@ -213,13 +213,13 @@
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                            <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                            <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                            <li><a href="#"><em class="ti-user"></em> My Profile</a></li>
+                            <li><a href="#"><em class="ti-wallet"></em> My Balance</a></li>
+                            <li><a href="#"><em class="ti-email"></em> Inbox</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a routerLink="account-settings"><i class="ti-settings"></i> Account Setting</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a routerLink="/login"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a id="logout-btn" (click)="logout()"><em class="fa fa-power-off"></em> Logout</a></li>
                         </ul>
                     </div>
                 </li>
