@@ -10,3 +10,8 @@ export interface loginRequest{
     password:string;
     remember:boolean;
 }
+export interface ActualizarUsuarioRequest{
+    nombre:string,
+    email:string,
+    role:string,
+}
