@@ -16,9 +16,9 @@ export class Usuario{
             return this.img;
         }
         if(this.img){
-            return environment.base_url+"/upload/usuario/"+this.img;
+            return environment.base_url+"/upload/usuarios/"+this.img;
         }else{
-            return environment.base_url+"/upload/usuario/no-image";
+            return environment.base_url+"/upload/usuarios/not-found.png";
         }
     }
 }
