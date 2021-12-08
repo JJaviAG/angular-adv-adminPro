@@ -4,29 +4,38 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { CrearRequest, loginRequest } from '../interfaces/auth.interfaces';
+import { ActualizarUsuarioRequest, CrearRequest, loginRequest } from '../interfaces/auth.interfaces';
+import { Usuario } from '../models/usuario.model';
 declare const gapi: any;
 @Injectable({
 	providedIn: 'root'
 })
 export class UsuarioService {
 	public auth2: any;
+	public usuario:Usuario;
 	constructor(private http: HttpClient, private router: Router,private ngZone:NgZone) {
 		this.googleInit();
 	}
-
+	get getToken(){
+		return localStorage.getItem('token');
+	}
+	get getUserId(){
+		return this.usuario.id;
+	}
 	validarToken(): Observable<boolean> {
-		const token = localStorage.getItem('token') || '';
+		const token = this.getToken;
 
 		return this.http.get(environment.base_url + "/login/renew", {
 			headers: {
 				'x-token': token
 			}
 		}).pipe(
-			tap((resp: any) => {
+			map((resp: any) => {
+				const {email,google,nombre,role,img='',id}=resp.usuario;
+				this.usuario=new Usuario(nombre,email,'',img,google,role,id)
 				localStorage.setItem('token', resp.token);
+				return true;
 			}),
-			map(resp => true),
 			catchError(error => of(false))
 		);
 	}
@@ -36,6 +45,14 @@ export class UsuarioService {
 			console.log((res));
 			localStorage.setItem("token", res.token)
 		}));
+	}
+	actualizarUsuario(request:ActualizarUsuarioRequest){
+		request.role="USER_ROLE";
+		return this.http.put(`${environment.base_url}/usuarios/${this.getUserId}`,request, {
+			headers: {
+				'x-token': this.getToken,
+			}
+		});
 	}
 	login(request: loginRequest) {
 		return this.http.post(environment.base_url + "/login", request).pipe(tap((res: any) => {

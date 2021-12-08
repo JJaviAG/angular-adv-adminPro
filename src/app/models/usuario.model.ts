@@ -1,5 +1,8 @@
+import { environment } from "src/environments/environment"
+
+
 export class Usuario{
-    constructor(
+    public constructor(
         public nombre:string,
         public email:string,
         public password?:string,
@@ -8,4 +11,14 @@ export class Usuario{
         public role?:string,
         public id?:string
     ){}
+    get getImgUrl(){
+        if(this.img.includes('https')){
+            return this.img;
+        }
+        if(this.img){
+            return environment.base_url+"/upload/usuario/"+this.img;
+        }else{
+            return environment.base_url+"/upload/usuario/no-image";
+        }
+    }
 }
