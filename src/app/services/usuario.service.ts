@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ActualizarUsuarioRequest, CrearRequest, loginRequest } from '../interfaces/auth.interfaces';
+import { ActualizarUsuarioRequest, CrearRequest, loginRequest, ObtenerUsuariosResponse } from '../interfaces/auth.interfaces';
 import { Usuario } from '../models/usuario.model';
 declare const gapi: any;
 @Injectable({
@@ -21,6 +21,13 @@ export class UsuarioService {
 	}
 	get getUserId(){
 		return this.usuario.id;
+	}
+	get getHeaders(){
+		return {
+			headers: {
+				'x-token': this.getToken,
+			}
+		}
 	}
 	validarToken(): Observable<boolean> {
 		const token = this.getToken;
@@ -86,5 +93,14 @@ export class UsuarioService {
 				resolve();
 			});
 		})
+	}
+	GetUsuarios(inicio:number=0){
+		return this.http.get<ObtenerUsuariosResponse>(environment.base_url+"/usuarios?desde="+inicio,this.getHeaders).pipe(
+			map(resp=>{
+				const usuarios=resp.Resultados.map(user=> new Usuario(user.nombre,user.email,null,user.img,user.google,user.role,user.id))
+				console.log(resp);
+				resp.Resultados=usuarios;
+				return resp;
+		}));
 	}
 }

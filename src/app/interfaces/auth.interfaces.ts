@@ -1,3 +1,5 @@
+import { Usuario } from "../models/usuario.model";
+
 export interface CrearRequest {
     nombre:string;
     email:string;
@@ -11,7 +13,15 @@ export interface loginRequest{
     remember:boolean;
 }
 export interface ActualizarUsuarioRequest{
-    nombre:string,
-    email:string,
-    role:string,
+    nombre:string;
+    email:string;
+    role:string;
+}
+export interface ObtenerUsuariosResponse{
+    Resultados:Usuario[];
+    total:number;
+}
+export interface BuscarResponse{
+    ok:boolean;
+    Resultados:Usuario[];
 }
