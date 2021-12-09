@@ -12,10 +12,11 @@ export class Usuario{
         public id?:string
     ){}
     get getImgUrl(){
-        if(this.img.includes('https')){
+        if(!this.img){
+            return environment.base_url+"/upload/usuarios/not-found.png";
+        }else if(this.img.includes('https')){
             return this.img;
-        }
-        if(this.img){
+        }else if(this.img){
             return environment.base_url+"/upload/usuarios/"+this.img;
         }else{
             return environment.base_url+"/upload/usuarios/not-found.png";
