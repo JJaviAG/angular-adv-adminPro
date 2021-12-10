@@ -46,25 +46,27 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let user of usuarios">
-                                <td><img [src]="user.getImgUrl" class="avatar w100" alt="Avatar"></td>
+                                <td><img [src]="user.getImgUrl" (click)="abrirModal(user)" class="avatar w100 cursor" alt="Avatar"></td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.nombre}}</td>
-                                <td>{{user.role}}</td>
+                                <td><select name="" id=""(change)="cambiarRole(user)" [(ngModel)]="user.role">
+                                    <option value="ADMIN_ROLE">Admin</option>
+                                    <option value="USER_ROLE">User</option>
+                                </select>
+                            </td>
                                 <td>
                                     <span *ngIf="user.google" class="label label-danger">Google</span>
                                     <span *ngIf="!user.google" class="label label-info">Email</span>
                                 </td>
                                 <td class="text-nowrap text-center">
-                                    <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i
-                                            class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Close"> <i
+                                    <a (click)="eliminarUsuario(user)" class="cursor" data-toggle="tooltip" data-original-title="Close"> <i
                                             class="fa fa-close text-danger"></i> </a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div *ngIf="campo.value.length>=3">
+                <div *ngIf="campo.value.length==0">
                     <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anterior</button>
                     &nbsp;
                     <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguiente</button>

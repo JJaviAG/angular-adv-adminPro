@@ -54,7 +54,7 @@ export class UsuarioService {
 		}));
 	}
 	actualizarUsuario(request:ActualizarUsuarioRequest){
-		request.role="USER_ROLE";
+		request.role=this.usuario.role;
 		return this.http.put(`${environment.base_url}/usuarios/${this.getUserId}`,request, {
 			headers: {
 				'x-token': this.getToken,
@@ -102,5 +102,12 @@ export class UsuarioService {
 				resp.Resultados=usuarios;
 				return resp;
 		}));
+	}
+	deleteUser(usuario:Usuario){
+		return this.http.delete(`${environment.base_url}/usuarios/${usuario.id}`,this.getHeaders);
+	}
+	//metodo para actualizar usuario desde tabla
+	updateUser(usuario:Usuario){
+		return this.http.put(`${environment.base_url}/usuarios/${usuario.id}`,usuario, this.getHeaders);
 	}
 }
