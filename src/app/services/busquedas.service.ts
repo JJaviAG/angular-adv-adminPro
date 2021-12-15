@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { BuscarResponse } from '../interfaces/auth.interfaces';
+import { Hospital } from '../models/hospital.model';
 import { Usuario } from '../models/usuario.model';
 
 @Injectable({
@@ -22,14 +23,15 @@ export class BusquedasService {
 			}
 		}
 	}
-	buscar(tipo:'usuarios'|'medicos'| 'hospitales',termino:string):Observable<Usuario[]> {
-		return this.http.get<BuscarResponse>(`${environment.base_url}/busqueda/coleccion/${tipo}/${termino}`,this.getHeaders).pipe(
+	buscar(tipo:'usuarios'|'medicos'| 'hospitales',termino:string) {
+		return this.http.get<any>(`${environment.base_url}/busqueda/coleccion/${tipo}/${termino}`,this.getHeaders).pipe(
 			map(
 				response =>{
 					switch (tipo) {
 						case 'usuarios':
 							return this.mapUsers(response);
-					
+							case 'hospitales':
+								return this.mapHospitals(response);
 						default:
 							return [];
 					}
@@ -38,5 +40,8 @@ export class BusquedasService {
 	}
 	private mapUsers(res:BuscarResponse){
 		return res.Resultados.map((element)=>new Usuario(element.nombre,element.email,null,element.img,element.google,element.role,element.id))
+	}
+	private mapHospitals(res){
+		return res.Resultados.map((element)=>new Hospital(element.id,element.nombre,element.img,element.usuario));
 	}
 }

@@ -5,6 +5,7 @@ export interface HospitalesUser{
     nombre:string,
     img:string,
 }
+
 export interface ObtenerHospitalesResponse{
     ok:boolean;
     message:Hospital[];

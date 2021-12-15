@@ -29,4 +29,13 @@ export class HospitalService {
     })
     );
 	}
+  crearHospital(nombre:string){
+    return this.http.post(environment.base_url+"/hospitales",{nombre},this.getHeaders);
+  }
+  actualizarHospital(id:string,nombre:string){
+    return this.http.put(environment.base_url+"/hospitales/"+id,{nombre},this.getHeaders);
+  }
+  BorrarHospital(id:string){
+    return this.http.delete(environment.base_url+"/hospitales/"+id,this.getHeaders);
+  }
 }
