@@ -20,5 +20,8 @@ export class HeaderComponent implements OnInit {
 	public logout() {
 		this.usuarioService.logout();
 	}
+	public buscar(busqueda:string){
+
+	}
 
 }
